@@ -1,10 +1,10 @@
 plugins {
     java
-    id("com.github.weave-mc.weave") version "8b70bcc707"
+    id("com.github.weave-mc.weave-gradle") version "649dba7468"
 }
 
 group = "com.github.koxx12dev"
-version = "1.0"
+version = "1.0.1"
 
 minecraft.version("1.8.9")
 
@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.weave-mc:weave-loader:6a9e6a3245")
+    compileOnly("com.github.weave-mc:weave-loader:70bd82faa6")
 
     compileOnly("org.spongepowered:mixin:0.8.5")
 }

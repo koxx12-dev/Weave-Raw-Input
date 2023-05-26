@@ -1,20 +1,19 @@
 package com.github.koxx12dev;
 
-import club.maxstats.weave.loader.api.ModInitializer;
-import club.maxstats.weave.loader.api.command.CommandBus;
-import club.maxstats.weave.loader.api.event.EventBus;
 import com.github.koxx12dev.command.OpenFileCommand;
 import com.github.koxx12dev.command.RescanCommand;
 import com.github.koxx12dev.listener.UnintendedUsageWarningListener;
 import com.github.koxx12dev.util.ChatUtil;
 import com.github.koxx12dev.util.RawMouseHelper;
-import net.java.games.input.Mouse;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
+import net.java.games.input.Mouse;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumChatFormatting;
+import net.weavemc.loader.api.ModInitializer;
+import net.weavemc.loader.api.command.CommandBus;
+import net.weavemc.loader.api.event.EventBus;
+import net.weavemc.loader.api.event.StartGameEvent;
 
 import java.lang.reflect.Constructor;
 
@@ -36,12 +35,19 @@ public class RawInput implements ModInitializer {
     }
 
     @Override
-    public void init() {
+    public void preInit() {
         // Abort mission if OS is not windows - Erymanthus / RayDeeUx
-        if (!(System.getProperty("os.name").toLowerCase().contains("windows"))) { EventBus.subscribe(new UnintendedUsageWarningListener()); CommandBus.register(new OpenFileCommand()); return; }
-
+        if (!(System.getProperty("os.name").toLowerCase().contains("windows"))) {
+            EventBus.subscribe(new UnintendedUsageWarningListener());
+            CommandBus.register(new OpenFileCommand());
+            return;
+        }
 
         CommandBus.register(new RescanCommand());
+        EventBus.subscribe(StartGameEvent.Post.class, this::init);
+    }
+
+    private void init(StartGameEvent.Post event) {
         Minecraft.getMinecraft().mouseHelper = new RawMouseHelper();
 
         Thread inputThread = new Thread(() -> {
@@ -50,7 +56,7 @@ public class RawInput implements ModInitializer {
                 if (enviro == null) {
                     try {
                         enviro = createDefaultEnvironment();
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else if (mouse == null) {
@@ -82,8 +88,8 @@ public class RawInput implements ModInitializer {
                 } else {
                     mouse.poll();
                     if (Minecraft.getMinecraft().currentScreen == null) {
-                        dx += (int)mouse.getX().getPollData();
-                        dy += (int)mouse.getY().getPollData();
+                        dx += (int) mouse.getX().getPollData();
+                        dy += (int) mouse.getY().getPollData();
                     }
                 }
                 try {
