@@ -13,14 +13,10 @@ public class ChatUtil {
     }
 
     public static void addMessage(String message) {
-        if (Minecraft.getMinecraft().thePlayer != null) {
-            addMessage(new ChatComponentText(message));
-        }
+        addMessage(new ChatComponentText(message));
     }
 
     public static void addMessage(EnumChatFormatting color, String message) {
-        if (Minecraft.getMinecraft().thePlayer != null) {
-            addMessage(color + message);
-        }
+        addMessage(color + message);
     }
 }
