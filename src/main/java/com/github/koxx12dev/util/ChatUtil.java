@@ -7,7 +7,9 @@ import net.minecraft.util.IChatComponent;
 
 public class ChatUtil {
     public static void addMessage(IChatComponent message) {
-        Minecraft.getMinecraft().thePlayer.addChatMessage(message);
+        if (Minecraft.getMinecraft().thePlayer != null) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(message);
+        }
     }
 
     public static void addMessage(String message) {
