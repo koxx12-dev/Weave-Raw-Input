@@ -5,6 +5,6 @@ import java.nio.file.Paths;
 
 public class WeaveUtil {
     public static Path getModFolder() {
-        return Paths.get(System.getProperty("user.home"), ".lunarclient", "mods");
+        return Paths.get(System.getProperty("user.home"), ".weave", "mods");
     }
 }

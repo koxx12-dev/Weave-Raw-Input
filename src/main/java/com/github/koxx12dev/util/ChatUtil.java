@@ -7,14 +7,20 @@ import net.minecraft.util.IChatComponent;
 
 public class ChatUtil {
     public static void addMessage(IChatComponent message) {
-        Minecraft.getMinecraft().thePlayer.addChatMessage(message);
+        if (Minecraft.getMinecraft().thePlayer != null) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(message);
+        }
     }
 
     public static void addMessage(String message) {
-        addMessage(new ChatComponentText(message));
+        if (Minecraft.getMinecraft().thePlayer != null) {
+            addMessage(new ChatComponentText(message));
+        }
     }
 
     public static void addMessage(EnumChatFormatting color, String message) {
-        addMessage(color + message);
+        if (Minecraft.getMinecraft().thePlayer != null) {
+            addMessage(color + message);
+        }
     }
 }
